@@ -219,20 +219,20 @@ insert into customer (first_name, last_name, address, phone, email)
 	select distinct customer_first, customer_last, customer_address, customer_phone, customer_email
     from rcttc_data;
     
---     select * from customer;
+    select * from customer;
 
 insert into theater (theater_name, address, phone, email)
 	select distinct theater, theater_address, theater_phone, theater_email
     from rcttc_data;
     
-    -- select * from theater;
+ select * from theater;
 
 insert into performance (show_name, ticket_price, show_date, theater_id)
 	select distinct r.`show`, r.ticket_price, r.`date`, t.theater_id
     from rcttc_data r
     join theater t on t.theater_name = r.theater;
     
-    -- select * from performance;
+   select * from performance; 
 
 insert into ticket (seat, customer_id, performance_id)
 	select distinct r.seat, c.customer_id, p.performance_id
@@ -240,6 +240,46 @@ insert into ticket (seat, customer_id, performance_id)
     join customer c on c.first_name = r.customer_first
     join performance p on p.show_name = r.`show`;
     
-    select * from ticket;
+    select * from ticket
+    where performance_id = 5;
+    
+--     The Little Fitz's 2021-03-01 performance of The Sky Lit Up is listed with a $20 ticket price. 
+--     The actual price is $22.25 because of a visiting celebrity actor. (Customers were notified.) 
+--     Update the ticket price for that performance only. performance_id = 5
+
+update performance set
+	ticket_price = 22.25
+    where performance_id = 5;
+    
+-- In the Little Fitz's 2021-03-01 performance of The Sky Lit Up, Pooh Bedburrow and Cullen Guirau seat reservations aren't in the same row.
+-- Adjust seating so all groups are seated together in a row. This may require updates to all reservations for that performance. 
+-- Confirm that no seat is double-booked and that everyone who has a ticket is as close to their original seat as possible.
+select
+c.first_name,
+c.last_name,
+t.seat,
+p.show_date,
+p.show_name
+from customer c
+join ticket t on t.customer_id = c.customer_id
+join performance p on p.performance_id = t.performance_id
+join theater th on th.theater_id = p.theater_id
+where p.show_name = 'The Sky Lit Up' and p.show_date = '2021-03-01';
+
+update ticket set
+seat = 'B4'
+where ticket_id = 151;
+
+update ticket set
+seat = 'C2'
+where ticket_id = 155;
+
+update ticket set
+seat = 'A4'
+where ticket_id = 157;
+
+update customer set
+phone = '1-801-EAT-CAKE'
+where customer_id = 48;
 
 

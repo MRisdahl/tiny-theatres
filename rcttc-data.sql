@@ -220,7 +220,7 @@ insert into customer (first_name, last_name, address, phone, email)
     from rcttc_data;
     
     select * from customer
-    where first_name = 'Emily';
+    where first_name = 'Brian';
 
 insert into theater (theater_name, address, phone, email)
 	select distinct theater, theater_address, theater_phone, theater_email
@@ -236,10 +236,10 @@ insert into performance (show_name, ticket_price, show_date, theater_id)
    select * from performance; 
 
 insert into ticket (seat, customer_id, performance_id)
-	select distinct r.seat, c.customer_id, p.performance_id
+	select r.seat, c.customer_id, p.performance_id
     from rcttc_data r
-    join customer c on c.first_name = r.customer_first
-    join performance p on p.show_name = r.`show`;
+    join customer c on c.first_name = r.customer_first and c.last_name = r.customer_last
+    join performance p on p.show_name = r.`show` and p.show_date = r.`date`;
     
     select * from ticket
     where performance_id = 1 or performance_id = 2 or performance_id = 3 or performance_id = 4;
@@ -267,17 +267,19 @@ join performance p on p.performance_id = t.performance_id
 join theater th on th.theater_id = p.theater_id
 where p.show_name = 'The Sky Lit Up' and p.show_date = '2021-03-01';
 
+select * from ticket;
+-- pooh ci = 37, cullen ci = 38, chiarra ci = 39, pi = 5
 update ticket set
 seat = 'B4'
-where ticket_id = 151;
+where ticket_id = 98;
 
 update ticket set
 seat = 'C2'
-where ticket_id = 155;
+where ticket_id = 100;
 
 update ticket set
 seat = 'A4'
-where ticket_id = 157;
+where ticket_id = 101;
 
 update customer set
 phone = '1-801-EAT-CAKE'
@@ -293,18 +295,22 @@ join performance p on p.performance_id = t.performance_id
 join theater th on th.theater_id = p.theater_id
 where th.theater_name = '10 Pin'
 group by first_name;
--- loralie 18, emily 19, Giraud 22, melamie 25, caye 26
+-- loralie 18, emily 19, Giraud 22, melamie 25, caye 26, Hertha 7, Flinn 8, Lucien 10, Brian 15
 
 select * from ticket
     where performance_id = 1 or performance_id = 2 or performance_id = 3 or performance_id = 4;
     
-    -- loralie 18 = ti:96, emily 19 = ti: 97, giraud 22 = ti: 105, melamie 25 = ti: 113, caye 26 = ti: 114 
+    -- loralie 18 = ti:50, emily 19 = ti: 51, giraud 22 = ti: 59, melamie 25 = ti: 67, caye 26 = ti: 68, Hertha 7 = ti:25, Flinn 8 = ti: 26, Lucien 10 = ti:29, Brian 15 = ti:41 
 
-delete from ticket where ticket_id = 96;
-delete from ticket where ticket_id = 97;
-delete from ticket where ticket_id = 105;
-delete from ticket where ticket_id = 113;
-delete from ticket where ticket_id = 114;
+delete from ticket where ticket_id = 50;
+delete from ticket where ticket_id = 51;
+delete from ticket where ticket_id = 59;
+delete from ticket where ticket_id = 67;
+delete from ticket where ticket_id = 68;
+delete from ticket where ticket_id = 25;
+delete from ticket where ticket_id = 26;
+delete from ticket where ticket_id = 29;
+delete from ticket where ticket_id = 41;
 
 -- Delete the customer Liv Egle of Germany. It appears their reservations were an elaborate joke.
 

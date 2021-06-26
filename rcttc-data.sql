@@ -219,7 +219,8 @@ insert into customer (first_name, last_name, address, phone, email)
 	select distinct customer_first, customer_last, customer_address, customer_phone, customer_email
     from rcttc_data;
     
-    select * from customer;
+    select * from customer
+    where first_name = 'Emily';
 
 insert into theater (theater_name, address, phone, email)
 	select distinct theater, theater_address, theater_phone, theater_email
@@ -241,7 +242,7 @@ insert into ticket (seat, customer_id, performance_id)
     join performance p on p.show_name = r.`show`;
     
     select * from ticket
-    where performance_id = 5;
+    where performance_id = 1 or performance_id = 2 or performance_id = 3 or performance_id = 4;
     
 --     The Little Fitz's 2021-03-01 performance of The Sky Lit Up is listed with a $20 ticket price. 
 --     The actual price is $22.25 because of a visiting celebrity actor. (Customers were notified.) 
@@ -282,4 +283,40 @@ update customer set
 phone = '1-801-EAT-CAKE'
 where customer_id = 48;
 
+select
+th.theater_name,
+c.first_name,
+count(t.seat)
+from customer c
+join ticket t on t.customer_id = c.customer_id
+join performance p on p.performance_id = t.performance_id
+join theater th on th.theater_id = p.theater_id
+where th.theater_name = '10 Pin'
+group by first_name;
+-- loralie 18, emily 19, Giraud 22, melamie 25, caye 26
 
+select * from ticket
+    where performance_id = 1 or performance_id = 2 or performance_id = 3 or performance_id = 4;
+    
+    -- loralie 18 = ti:96, emily 19 = ti: 97, giraud 22 = ti: 105, melamie 25 = ti: 113, caye 26 = ti: 114 
+
+delete from ticket where ticket_id = 96;
+delete from ticket where ticket_id = 97;
+delete from ticket where ticket_id = 105;
+delete from ticket where ticket_id = 113;
+delete from ticket where ticket_id = 114;
+
+-- Delete the customer Liv Egle of Germany. It appears their reservations were an elaborate joke.
+
+  select * from customer
+    where first_name = 'Liv';
+    
+    -- customer_id = 65
+    
+    delete from customer where customer_id = 65;
+     select * from ticket
+    where customer_id = 65;
+    -- ticket_id = 279 and 280
+    
+    delete from ticket where ticket_id = 279;
+delete from ticket where ticket_id = 280;

@@ -221,6 +221,18 @@ insert into customer (first_name, last_name, address, phone, email)
     
     select * from customer
     where first_name = 'Brian';
+    
+    -- Delete the customer Liv Egle of Germany. It appears their reservations were an elaborate joke.
+
+  select * from customer
+    where first_name = 'Liv';
+    
+    -- customer_id = 65
+    
+    delete from customer where customer_id = 65;
+     select * from ticket
+    where customer_id = 65;
+    -- ticket_id = 279 and 280
 
 insert into theater (theater_name, address, phone, email)
 	select distinct theater, theater_address, theater_phone, theater_email
@@ -312,17 +324,5 @@ delete from ticket where ticket_id = 26;
 delete from ticket where ticket_id = 29;
 delete from ticket where ticket_id = 41;
 
--- Delete the customer Liv Egle of Germany. It appears their reservations were an elaborate joke.
 
-  select * from customer
-    where first_name = 'Liv';
     
-    -- customer_id = 65
-    
-    delete from customer where customer_id = 65;
-     select * from ticket
-    where customer_id = 65;
-    -- ticket_id = 279 and 280
-    
-    delete from ticket where ticket_id = 279;
-delete from ticket where ticket_id = 280;
